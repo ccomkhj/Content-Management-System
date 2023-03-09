@@ -55,4 +55,14 @@ defmodule HelloWeb.TopicController do
     end
   end
 
+  def delete(conn, %{"id" => topic_id}) do
+    #resources helper assumes it's called "id"
+    Repo.get!(Topic, topic_id) |> Repo.delete!
+    # ! gives an error message to the user.
+
+    conn
+    |> put_flash(:info, "Topic Deleted")
+    |> redirect(to: Routes.topic_path(conn, :index))
+  end
+
 end
